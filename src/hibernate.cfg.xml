@@ -6,7 +6,7 @@
     <session-factory>
         <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
         <property name="hibernate.connection.password">abc123.</property>
-        <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;database=instituto;encrypt=true;trustServerCertificate=true;</property>
+        <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;database=pruebasHibernate;encrypt=true;trustServerCertificate=true;</property>
         <property name="hibernate.connection.username">user</property>
         <property name="hibernate.default_schema">dbo</property>
         <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
@@ -21,7 +21,7 @@
         <property name="hibernate.format_sql">true</property>
        
        	<!--  Mapear las clases que hagan falta -->
-        <!-- <mapping class="modelo.Empresa"/> -->
+        <mapping class="modelo.Clientes"/>
         
     </session-factory>
 </hibernate-configuration>
