@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ public class Clientes {
 	private String apellidos;
 	private String direccion;
 	private Detalles_Clientes detalles_clientes;
+	private List<Pedidos> pedidos;
 	
 	public Clientes() {
 		
@@ -63,6 +65,26 @@ public class Clientes {
 
 	public void setDetalles_clientes(Detalles_Clientes detalles_clientes) {
 		this.detalles_clientes = detalles_clientes;
+	}
+	
+	
+	@OneToMany(mappedBy="cliente")
+	public List<Pedidos> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedidos> pedidos) {
+		this.pedidos = pedidos;
+	}
+
+	//Método para recoger los pedidos
+	public void agregarPedidos(Pedidos pedido) {
+		if(pedidos == null) {
+			pedidos = new ArrayList<>();
+			pedidos.add(pedido);
+			//this hace referencia al cliente donde nos encontramos
+			pedido.setCliente(this);
+		}
 	}
 
 	@Override
