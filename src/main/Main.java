@@ -6,19 +6,24 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import modelo.Clientes; 
+import modelo.Clientes;
+import modelo.Detalles_Clientes;
 import util.SessionFactoryUtil;
 
 public class Main {
 
 	public static void main(String[] args) {
 		comprobarConexion();
-		createObjeto();
-		mostrarObjetos();
-		modificarClienteConLoad(53170229);
-		mostrarObjetos();
-		borrarDepartamento(53170229);
-		mostrarObjetos();
+		//createObjeto();
+		//mostrarObjetos();
+		//modificarClienteConLoad(53170229);
+		//mostrarObjetos();
+		//borrarCliente(53170229);
+		//mostrarObjetos();
+		
+		//Con asociaciones
+		createObjetoConObjetoRelacionado();
+		borrarCliente(53170229);
 		
 	}
 	
@@ -63,6 +68,47 @@ public class Main {
 		}
 		
 	}
+	
+	//Crear objeto con Relacion
+	public static void createObjetoConObjetoRelacionado() {
+			Transaction tx = null;
+			SessionFactory factoria = SessionFactoryUtil.getSessionFactory();
+			
+			try (Session sesion = factoria.openSession();){
+				tx = sesion.beginTransaction();
+				
+				//Crear el objeto y setearle los datos
+				Clientes cliente = new Clientes();
+				Detalles_Clientes detalles = new Detalles_Clientes();
+				cliente.setId(53170229);
+				cliente.setNombre("David");
+				cliente.setApellidos("Marin");
+				cliente.setDireccion("Teixugueiras");
+				
+				detalles.setWeb("www.pamcollective.com");
+				detalles.setTfno("986123456");
+				detalles.setComentarios("Creando nuestro primer cliente con detalle");
+				
+				//Setear los detalles para que se asocien con los de cliente
+				cliente.setDetalles_clientes(detalles);
+				
+				//Guardar la sesion con "sesion.save(objeto)"
+				//No hace falta guardar "detalles" porque ya se seteó previamente en cliente
+				sesion.save(cliente);
+				//Sesion.save devuelve el id del objeto en la BBDD
+				//Integer depId = (Integer)sesion.save(cliente);
+				
+				tx.commit();
+				
+			} catch(Exception ex) {
+				System.err.println("Ha habido una exception " + ex);
+				if (tx != null) {
+					tx.rollback();
+				}
+				throw ex;
+			}
+			
+		}
 
 	//Buscar un objeto
 	public static void findObjeto(int id) {
@@ -131,7 +177,7 @@ public class Main {
 		}
 	
 	//Borrar un objeto
-	public static void borrarDepartamento(int id) {
+	public static void borrarCliente(int id) {
 		Transaction tx = null;
 		SessionFactory factoria = SessionFactoryUtil.getSessionFactory();
 		

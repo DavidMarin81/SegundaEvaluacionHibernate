@@ -22,6 +22,7 @@
        
        	<!--  Mapear las clases que hagan falta -->
         <mapping class="modelo.Clientes"/>
+        <mapping class="modelo.Detalles_Clientes"/>
         
     </session-factory>
 </hibernate-configuration>

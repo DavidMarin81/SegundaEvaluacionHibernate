@@ -3,13 +3,14 @@ package modelo;
 import javax.persistence.*;
 
 @Entity
-@Table(name="clientes")
+@Table
 public class Clientes {
 	
 	private int id;
 	private String nombre;
 	private String apellidos;
 	private String direccion;
+	private Detalles_Clientes detalles_clientes;
 	
 	public Clientes() {
 		
@@ -49,6 +50,16 @@ public class Clientes {
 	}
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
+	}
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="fk_id")
+	public Detalles_Clientes getDetalles_clientes() {
+		return detalles_clientes;
+	}
+
+	public void setDetalles_clientes(Detalles_Clientes detalles_clientes) {
+		this.detalles_clientes = detalles_clientes;
 	}
 
 	@Override
