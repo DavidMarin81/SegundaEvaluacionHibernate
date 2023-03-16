@@ -23,7 +23,7 @@ public class Main {
 		
 		//Con asociaciones
 		//createObjetoConObjetoRelacionado();
-		borrarDetalleCliente(4);
+		//borrarDetalleCliente(4);
 		
 	}
 	

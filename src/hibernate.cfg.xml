@@ -16,13 +16,14 @@
         <property name="hibernate.search.autoregister_listeners">true</property>
         <property name="hibernate.validator.apply_to_ddl">false</property>
 		<!-- https://docs.jboss.org/hibernate/orm/6.2/userguide/html_single/Hibernate_User_Guide.html#configurations-hbmddl -->
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">create-drop</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
        
        	<!--  Mapear las clases que hagan falta -->
         <mapping class="modelo.Clientes"/>
         <mapping class="modelo.Detalles_Clientes"/>
+        <mapping class="modelo.Pedidos"/>
         
     </session-factory>
 </hibernate-configuration>
