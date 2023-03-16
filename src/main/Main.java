@@ -22,8 +22,8 @@ public class Main {
 		//mostrarObjetos();
 		
 		//Con asociaciones
-		createObjetoConObjetoRelacionado();
-		borrarCliente(53170229);
+		//createObjetoConObjetoRelacionado();
+		borrarDetalleCliente(4);
 		
 	}
 	
@@ -80,8 +80,8 @@ public class Main {
 				//Crear el objeto y setearle los datos
 				Clientes cliente = new Clientes();
 				Detalles_Clientes detalles = new Detalles_Clientes();
-				cliente.setId(53170229);
-				cliente.setNombre("David");
+				cliente.setId(53170230);
+				cliente.setNombre("Pablo");
 				cliente.setApellidos("Marin");
 				cliente.setDireccion("Teixugueiras");
 				
@@ -90,11 +90,11 @@ public class Main {
 				detalles.setComentarios("Creando nuestro primer cliente con detalle");
 				
 				//Setear los detalles para que se asocien con los de cliente
-				cliente.setDetalles_clientes(detalles);
+				detalles.setClientes(cliente);
 				
 				//Guardar la sesion con "sesion.save(objeto)"
 				//No hace falta guardar "detalles" porque ya se seteó previamente en cliente
-				sesion.save(cliente);
+				sesion.save(detalles);
 				//Sesion.save devuelve el id del objeto en la BBDD
 				//Integer depId = (Integer)sesion.save(cliente);
 				
@@ -196,6 +196,28 @@ public class Main {
 			throw ex;
 		}
 	}
+	
+	//Borrar una parte de la relacion y respetar la otra
+	public static void borrarDetalleCliente(int id) {
+		Transaction tx = null;
+		SessionFactory factoria = SessionFactoryUtil.getSessionFactory();
+		
+		try (Session sesion = factoria.openSession();){
+			tx = sesion.beginTransaction();
+			Detalles_Clientes detalles = sesion.load(Detalles_Clientes.class, id);
+			sesion.delete(detalles);
+			
+			tx.commit();
+	
+		} catch (Exception ex) {
+			System.err.println("Ha habido una exception " + ex);
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw ex;
+		}
+	}
+	
 
 	//Mostrar objetos
 	public static void mostrarObjetos() {

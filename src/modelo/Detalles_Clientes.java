@@ -8,6 +8,7 @@ public class Detalles_Clientes {
 	
 	private int id;
 	private String web, tfno, comentarios;
+	private Clientes clientes;
 	
 	public Detalles_Clientes() {
 	}
@@ -52,6 +53,17 @@ public class Detalles_Clientes {
 
 	public void setComentarios(String comentarios) {
 		this.comentarios = comentarios;
+	}
+	
+	//Se quita la cascada para que se borren los detalles pero no el cliente
+	@OneToOne
+	@JoinColumn
+	public Clientes getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(Clientes clientes) {
+		this.clientes = clientes;
 	}
 
 	@Override

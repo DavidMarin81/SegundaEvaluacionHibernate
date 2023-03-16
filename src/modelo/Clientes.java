@@ -52,8 +52,9 @@ public class Clientes {
 		this.direccion = direccion;
 	}
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="fk_id")
+	//Se quita la cascada para que se borren los detalles pero se mantenga el cliente
+	@OneToOne(mappedBy="clientes")
+	@JoinColumn
 	public Detalles_Clientes getDetalles_clientes() {
 		return detalles_clientes;
 	}
