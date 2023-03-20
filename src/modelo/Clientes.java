@@ -6,7 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table
+//@Table
 public class Clientes {
 	
 	private int id;
@@ -27,28 +27,28 @@ public class Clientes {
 	}
 	@Id
 	//@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column
+	//@Column
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	@Column
+	//@Column
 	public String getNombre() {
 		return nombre;
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	@Column
+	//@Column
 	public String getApellidos() {
 		return apellidos;
 	}
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
 	}
-	@Column
+	//@Column
 	public String getDireccion() {
 		return direccion;
 	}
