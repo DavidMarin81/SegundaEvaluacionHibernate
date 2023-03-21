@@ -96,7 +96,90 @@ public class ConsultasHQL {
 			}
 		}
 		
+		{
+			System.out.println("----------- Nombres de los departamentos sin empleados, ordenados por nombre -----------");
+			List<String> nombres = session.createQuery(" select d.dname FROM Departamento d WHERE size(d.emps) = 0 ORDER BY d.dname").list();
 
+			for (String departamento : nombres) {
+				System.out.println("Departamento = " + departamento);
+			}
+		}
+		
+		{
+			System.out.println("----------- Nombres de los departamentos y de los empleados que tienen al menos 2 empleados. Se debe ordenar por nombre del departamento -----------");
+			List<Object[]> nombres =session.createQuery(" select d.dname, e.ename FROM Departamento d join d.emps e WHERE size(d.emps) > 2 ORDER BY d.dname").list();
+
+			for (Object[] noms : nombres) {
+				System.out.println("Departamento = " + noms[0] + " -> Empleado: " + noms[1]);
+			}
+		}
+		
+		{
+			System.out.println("----------- Q3: Los ids de los empleados y el nº de cuentas por empleado -----------");
+			List<Object[]> deptList = session
+					.createQuery("  select e.empno,  count(a) FROM Emp e left join e.accounts a group by e.empno").list();
+					//.createQuery("  select e.empno,  size(e.accounts) FROM Emp e").list();
+			for (Object[] filas : deptList) {
+				System.out.println("Id emp: " + filas[0] + " Nº de cuentas: " + filas[1]);
+			}
+		}
+
+		{
+			System.out.println("----------- Q4: Los ids de los empleados y el saldo de sus cuentas -----------");
+			List<Object[]> deptList = session
+					.createQuery("  select e.empno,  sum(a.amount) FROM Emp e join e.accounts a group by e.empno")
+					.list();
+
+			for (Object[] filas : deptList) {
+				System.out.println("Id emp: " + filas[0] + " Saldo cuenta(s): " + filas[1]);
+			}
+		}
+		
+		{
+			System.out.println("----------- Q5: El identificador de cada cuenta con el identificador del movimiento donde la cuenta es la cuenta origen -----------");
+			List<Object[]> cuentasIds = session
+					.createQuery("  select c.accountOrigen.accountno,"
+							+ " c.accountMovId from AccMovement c")
+					.list();
+
+			for (Object[] filas : cuentasIds) {
+				System.out.println("Id account: " + filas[0] + " Id mov: " + filas[1]);
+			}
+		}
+		
+		{
+			System.out.println("----------- Q6: El nº de movimientos por cada cuenta origen -----------");
+			List<Object[]> datos = session
+					.createQuery("select c.accountno, size(c.accMovementsOrigen) from Account c")
+					// Otra posibilidad: .createQuery("select c.accountno, count(o) from "
+					//+" Account c left join c.accMovementsOrigen o group by c.accountno")
+					
+					//La siguiente consulta no se corresponde con el enunciado porque las
+					//cuentas que no tienen movimientos no aparecen: 
+					//.createQuery("select c.accountOrigen.accountno, count(c.accountMovId) "
+//							+ "from AccMovement c group by c.accountOrigen.accountno")
+				
+					.list();
+
+			for (Object[] filas : datos) {
+				System.out.println("Id account: " + filas[0] + " Nº.mov: " + filas[1]);
+			}
+		}
+		
+		{
+			System.out.println("----------- Q7. El nombre de cada empleado con el de su jefe. Ha de aparecer el nombre del empleado aunque no tenga jefe\r\n"
+					+ "		 -----------");
+			List<Object[]> datos = session
+					.createQuery("select e.ename, j.ename from Emp e left join e.emp j ")
+					
+					.list();
+
+			for (Object[] filas : datos) {
+				System.out.println("Emp name: " + filas[0] + " Jefe name: " + filas[1]);
+			}
+
+		}
+		
 		session.close();
 		sessionFactory.close();
 	}
